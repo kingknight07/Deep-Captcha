@@ -22,8 +22,6 @@ def generate_captcha_examples():
                 num_lines=3,  # Lots of occlusion lines
                 dot_radius=1,  # Use 2px diameter dots instead of single pixels
                 blur_level=0.8,  # A very slight blur
-                wavy_text=False,  # Keep the text wavy (can be set to False)
-                wavy_lines=True,  # Keep the lines (can be set to False)
                 noise_density=0.6  # High density of background noise dots
             )
             image, text = custom_captcha_gen.generate()

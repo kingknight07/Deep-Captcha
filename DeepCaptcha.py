@@ -25,22 +25,27 @@ class DeepCaptcha:
                  line_thickness: int = 3,
                  dot_radius: int = 0,
                  blur_level: float = 0.5,
-                 wavy_text: bool = True,
                  shear_text: bool = True,
-                 wavy_lines: bool = True,
                  noise_density: float = 0.5,
                  char_colors: list = None):
         """
         Initializes the DeepCaptcha generator with user-defined settings.
 
         Args:
-            (Docstrings for existing parameters)
+            width (int): Width of the CAPTCHA image in pixels. Default: 280.
+            height (int): Height of the CAPTCHA image in pixels. Default: 100.
+            text_length (int): Number of characters in the CAPTCHA text. Default: 5.
+            num_lines (int): Number of occlusion lines to draw. Default: 8.
             line_thickness (int): The width of the occlusion lines in pixels. Default: 3.
+            dot_radius (int): Radius of background noise dots. Default: 0.
+            blur_level (float): Intensity of blur effect (0.0 to 1.0). Default: 0.5.
             shear_text (bool): If True, characters are distorted with a shear effect. Default: True.
+            noise_density (float): Density of background noise dots (0.0 to 1.0). Default: 0.5.
+            char_colors (list): List of RGB tuples for character colors. Default: None (uses predefined colors).
         """
         self.width, self.height, self.text_length = width, height, text_length
         self.num_lines, self.line_thickness, self.dot_radius = num_lines, line_thickness, dot_radius
-        self.wavy_text, self.shear_text, self.wavy_lines = wavy_text, shear_text, wavy_lines
+        self.shear_text = shear_text
         self.blur_radius = max(0, min(1.0, blur_level)) * 1.5
         max_dots = self.width * self.height * 0.1
         self.num_dots = int(max(0, min(1.0, noise_density)) * max_dots)
@@ -105,8 +110,8 @@ class DeepCaptcha:
                 # Affine transform: (a, b, c, d, e, f) where b is horizontal shear
                 char_img = char_img.transform(char_img.size, Image.AFFINE, (1, shear_factor, 0, 0, 1, 0))
 
-            angle = random.randint(-40, 40) if self.wavy_text else 0
-            rotated_char = char_img.rotate(angle, expand=True, resample=LANCZOS)
+            # No rotation applied - wavy_text removed
+            rotated_char = char_img
             buffer.paste(rotated_char, (x_pos, random.randint(30, 50)), rotated_char)
             x_pos += rotated_char.width - overlap
 
@@ -123,8 +128,7 @@ class DeepCaptcha:
             paste_y = (self.height - text_block.height) // 2
             image.paste(text_block, (paste_x, paste_y), text_block)
 
-        # --- MODIFIED: Draw lines as the TOP layer before the blur ---
-        if self.wavy_lines and self.num_lines > 0: self._draw_occlusion_lines(draw)
+        # --- Lines drawing removed - wavy_lines attribute removed ---
 
         # Step 5: Apply the final blur to the composite image.
         if self.blur_radius > 0: image = image.filter(ImageFilter.GaussianBlur(radius=self.blur_radius))
