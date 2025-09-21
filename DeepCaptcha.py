@@ -14,7 +14,7 @@ except AttributeError:
 class DeepCaptcha:
     """
     A highly configurable, self-contained CAPTCHA generator library.
-    Version 9.0: Added text shearing, line thickness control, and corrected drawing order for lines.
+    Version 10.0: Added strike lines feature, removed wavy text and wavy lines.
     """
 
     def __init__(self,
@@ -35,8 +35,8 @@ class DeepCaptcha:
             width (int): Width of the CAPTCHA image in pixels. Default: 280.
             height (int): Height of the CAPTCHA image in pixels. Default: 100.
             text_length (int): Number of characters in the CAPTCHA text. Default: 5.
-            num_lines (int): Number of occlusion lines to draw. Default: 8.
-            line_thickness (int): The width of the occlusion lines in pixels. Default: 3.
+            num_lines (int): Number of strike lines to draw across the text. Default: 8.
+            line_thickness (int): The width of the strike lines in pixels. Default: 3.
             dot_radius (int): Radius of background noise dots. Default: 0.
             blur_level (float): Intensity of blur effect (0.0 to 1.0). Default: 0.5.
             shear_text (bool): If True, characters are distorted with a shear effect. Default: True.
@@ -77,15 +77,31 @@ class DeepCaptcha:
                                                                                                       fill=random.choice(
                                                                                                           dot_colors))
 
-    def _draw_occlusion_lines(self, draw):
+    def _draw_strike_lines(self, draw):
+        """Draw simple strike lines across the captcha image."""
+        line_colors = [(50, 50, 50), (0, 0, 0), (80, 80, 80)]
+        
         for _ in range(self.num_lines):
-            start = (random.randint(0, self.width // 4), random.randint(0, self.height - 1))
-            end = (random.randint(self.width * 3 // 4, self.width), random.randint(0, self.height - 1))
-            control1 = (random.randint(self.width // 4, self.width * 3 // 4), random.randint(0, self.height - 1))
-            control2 = (random.randint(self.width // 4, self.width * 3 // 4), random.randint(0, self.height - 1))
-            # --- MODIFIED: Use the new line_thickness parameter ---
-            draw.line([start, control1, control2, end], fill=random.choice([(50, 50, 50), (0, 0, 0)]),
-                      width=self.line_thickness)
+            # Generate random start and end points for strike lines
+            # Lines can be horizontal, diagonal, or slightly curved
+            line_type = random.choice(['horizontal', 'diagonal', 'vertical'])
+            
+            if line_type == 'horizontal':
+                # Horizontal lines across the image
+                y = random.randint(self.height // 4, 3 * self.height // 4)
+                start = (0, y)
+                end = (self.width, y + random.randint(-10, 10))
+            elif line_type == 'diagonal':
+                # Diagonal lines from corner to corner variations
+                start = (random.randint(0, self.width // 3), random.randint(0, self.height))
+                end = (random.randint(2 * self.width // 3, self.width), random.randint(0, self.height))
+            else:  # vertical
+                # Vertical or near-vertical lines
+                x = random.randint(self.width // 4, 3 * self.width // 4)
+                start = (x, 0)
+                end = (x + random.randint(-10, 10), self.height)
+            
+            draw.line([start, end], fill=random.choice(line_colors), width=self.line_thickness)
 
     def generate(self) -> tuple[Image.Image, str]:
         image = Image.new('RGB', (self.width, self.height), 'white')
@@ -128,7 +144,9 @@ class DeepCaptcha:
             paste_y = (self.height - text_block.height) // 2
             image.paste(text_block, (paste_x, paste_y), text_block)
 
-        # --- Lines drawing removed - wavy_lines attribute removed ---
+        # --- Draw strike lines over the text ---
+        if self.num_lines > 0: 
+            self._draw_strike_lines(draw)
 
         # Step 5: Apply the final blur to the composite image.
         if self.blur_radius > 0: image = image.filter(ImageFilter.GaussianBlur(radius=self.blur_radius))

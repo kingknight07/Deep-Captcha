@@ -19,7 +19,7 @@ def generate_captcha_examples():
                 width=350,  # A wider image
                 height=120,  # A taller image
                 text_length=4,  # More characters for increased difficulty
-                num_lines=3,  # Lots of occlusion lines
+                num_lines=3,  # Number of strike lines across the text
                 dot_radius=1,  # Use 2px diameter dots instead of single pixels
                 blur_level=0.8,  # A very slight blur
                 noise_density=0.6  # High density of background noise dots
