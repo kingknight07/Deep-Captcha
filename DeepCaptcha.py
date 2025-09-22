@@ -26,6 +26,7 @@ class DeepCaptcha:
                  dot_radius: int = 0,
                  blur_level: float = 0.5,
                  shear_text: bool = True,
+                 color_mode: bool = True,
                  noise_density: float = 0.5,
                  char_colors: list = None):
         """
@@ -40,20 +41,26 @@ class DeepCaptcha:
             dot_radius (int): Radius of background noise dots. Default: 0.
             blur_level (float): Intensity of blur effect (0.0 to 1.0). Default: 0.5.
             shear_text (bool): If True, characters are distorted with a shear effect. Default: True.
+            color_mode (bool): If True, captcha uses colors; if False, black & white. Default: True.
             noise_density (float): Density of background noise dots (0.0 to 1.0). Default: 0.5.
             char_colors (list): List of RGB tuples for character colors. Default: None (uses predefined colors).
         """
         self.width, self.height, self.text_length = width, height, text_length
         self.num_lines, self.line_thickness, self.dot_radius = num_lines, line_thickness, dot_radius
         self.shear_text = shear_text
+        self.color_mode = color_mode
         self.blur_radius = max(0, min(1.0, blur_level)) * 1.5
         max_dots = self.width * self.height * 0.1
         self.num_dots = int(max(0, min(1.0, noise_density)) * max_dots)
 
         if char_colors:
             self.char_colors = char_colors
-        else:
+        elif self.color_mode:
+            # Colorful mode - use various colors
             self.char_colors = [(180, 0, 0), (0, 150, 0), (0, 0, 180), (150, 0, 150), (139, 69, 19)]
+        else:
+            # Black & white mode - use only black and dark gray
+            self.char_colors = [(0, 0, 0), (50, 50, 50), (30, 30, 30), (70, 70, 70)]
 
         script_dir = os.path.dirname(os.path.abspath(__file__))
         font_dir = os.path.join(script_dir, 'static')
@@ -68,8 +75,12 @@ class DeepCaptcha:
         return ''.join(random.choices(string.ascii_uppercase + string.digits, k=self.text_length))
 
     def _draw_background_dots(self, draw):
-        # ... (no changes needed in this method)
-        dot_colors = [(180, 0, 0), (0, 180, 0), (0, 0, 180)]
+        # Choose colors based on color mode
+        if self.color_mode:
+            dot_colors = [(180, 0, 0), (0, 180, 0), (0, 0, 180)]
+        else:
+            dot_colors = [(100, 100, 100), (150, 150, 150), (80, 80, 80)]
+            
         for _ in range(self.num_dots):
             x, y = random.randint(0, self.width - 1), random.randint(0, self.height - 1)
             bbox = [x - self.dot_radius, y - self.dot_radius, x + self.dot_radius, y + self.dot_radius]
@@ -79,7 +90,10 @@ class DeepCaptcha:
 
     def _draw_strike_lines(self, draw):
         """Draw simple strike lines across the captcha image."""
-        line_colors = [(50, 50, 50), (0, 0, 0), (80, 80, 80)]
+        if self.color_mode:
+            line_colors = [(50, 50, 50), (0, 0, 0), (80, 80, 80), (100, 0, 0), (0, 100, 0)]
+        else:
+            line_colors = [(50, 50, 50), (0, 0, 0), (80, 80, 80), (120, 120, 120)]
         
         for _ in range(self.num_lines):
             # Generate random start and end points for strike lines
