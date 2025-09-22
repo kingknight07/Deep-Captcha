@@ -1,6 +1,6 @@
 # DeepCaptcha: Comprehensive Benchmark Report
 
-**Generated on:** 2025-09-22 06:34:55
+**Generated on:** 2025-09-22 06:45:40
 
 ## Executive Summary
 
@@ -8,9 +8,9 @@ This report presents a comprehensive comparison of DeepCaptcha against existing 
 
 ## Performance Results
 
-- **Generation Speed**: DeepCaptcha is -57.5% faster
-  - DeepCaptcha: 0.0078s average
-  - Captcha library: 0.0049s average
+- **Generation Speed**: DeepCaptcha is -70.6% faster
+  - DeepCaptcha: 0.0076s average
+  - Captcha library: 0.0045s average
 
 ## Feature Comparison
 
@@ -26,6 +26,8 @@ This report presents a comprehensive comparison of DeepCaptcha against existing 
 | Documentation | YES | NO |
 | Customizable Dimensions | YES | YES |
 | Background Dots | YES | YES |
+| Ease Of Use | YES | YES |
+| Error Handling | YES | NO |
 
 ## Key Research Claims
 

@@ -27,12 +27,29 @@ except ImportError:
     print("❌ 'captcha' library not available")
 
 try:
-    import simple_captcha
-    SIMPLE_CAPTCHA_AVAILABLE = True
-    print("✅ 'simple_captcha' library available for comparison")
+    from claptcha import Claptcha
+    CLAPTCHA_AVAILABLE = True
+    print("✅ 'claptcha' library available for comparison")
 except ImportError:
-    SIMPLE_CAPTCHA_AVAILABLE = False
-    print("❌ 'simple_captcha' library not available")
+    CLAPTCHA_AVAILABLE = False
+    print("❌ 'claptcha' library not available")
+
+try:
+    from wheezy.captcha.image import captcha as wheezy_captcha
+    from wheezy.captcha.image import background, curve, noise, smooth, warp
+    WHEEZY_AVAILABLE = True
+    print("✅ 'wheezy.captcha' library available for comparison")
+except ImportError:
+    WHEEZY_AVAILABLE = False
+    print("❌ 'wheezy.captcha' library not available")
+
+try:
+    from captcha.audio import AudioCaptcha  # Additional captcha library feature
+    AUDIO_CAPTCHA_AVAILABLE = True
+    print("✅ 'captcha.audio' available for audio comparison")
+except ImportError:
+    AUDIO_CAPTCHA_AVAILABLE = False
+    print("❌ 'captcha.audio' not available")
 
 
 class CaptchaBenchmark:
@@ -63,6 +80,18 @@ class CaptchaBenchmark:
             print("Testing 'captcha' library...")
             captcha_results = self._benchmark_captcha_lib(iterations)
             self.results['libraries']['captcha'] = captcha_results
+        
+        # Claptcha library benchmark
+        if CLAPTCHA_AVAILABLE:
+            print("Testing 'claptcha' library...")
+            claptcha_results = self._benchmark_claptcha_lib(iterations)
+            self.results['libraries']['claptcha'] = claptcha_results
+        
+        # Wheezy captcha benchmark
+        if WHEEZY_AVAILABLE:
+            print("Testing 'wheezy.captcha' library...")
+            wheezy_results = self._benchmark_wheezy_lib(iterations)
+            self.results['libraries']['wheezy'] = wheezy_results
         
         self._print_performance_summary()
     
@@ -156,6 +185,128 @@ class CaptchaBenchmark:
             'iterations': iterations
         }
     
+    def _benchmark_claptcha_lib(self, iterations):
+        """Benchmark the 'claptcha' library performance."""
+        times = []
+        memory_usage = []
+        
+        for i in range(iterations):
+            try:
+                # Memory tracking
+                process = psutil.Process()
+                mem_before = process.memory_info().rss
+                
+                # Time tracking
+                start_time = time.time()
+                c = Claptcha("ABCDE", font_path=None)  # Use default font
+                text, image = c.image
+                end_time = time.time()
+                
+                # Memory after
+                mem_after = process.memory_info().rss
+                
+                times.append(end_time - start_time)
+                memory_usage.append(mem_after - mem_before)
+                
+                # Save sample
+                if i < 5:
+                    image.save(f"{self.output_dir}/samples/claptcha_sample_{i}_ABCDE.png")
+            except Exception as e:
+                print(f"Claptcha error on iteration {i}: {e}")
+                continue
+        
+        if not times:  # If no successful iterations
+            return {
+                'generation_time': {'mean': 0, 'std': 0, 'min': 0, 'max': 0, 'raw_data': []},
+                'memory_usage': {'mean': 0, 'std': 0, 'raw_data': []},
+                'iterations': 0,
+                'error': 'No successful generations'
+            }
+        
+        return {
+            'generation_time': {
+                'mean': statistics.mean(times),
+                'std': statistics.stdev(times) if len(times) > 1 else 0,
+                'min': min(times),
+                'max': max(times),
+                'raw_data': times
+            },
+            'memory_usage': {
+                'mean': statistics.mean(memory_usage),
+                'std': statistics.stdev(memory_usage) if len(memory_usage) > 1 else 0,
+                'raw_data': memory_usage
+            },
+            'iterations': len(times)
+        }
+    
+    def _benchmark_wheezy_lib(self, iterations):
+        """Benchmark the 'wheezy.captcha' library performance."""
+        times = []
+        memory_usage = []
+        
+        try:
+            # Wheezy captcha setup
+            captcha_image = wheezy_captcha(
+                drawings=[background(), curve(), noise(), smooth(), warp()],
+                width=200, height=80
+            )
+            
+            for i in range(iterations):
+                try:
+                    # Memory tracking
+                    process = psutil.Process()
+                    mem_before = process.memory_info().rss
+                    
+                    # Time tracking
+                    start_time = time.time()
+                    image = captcha_image('ABCDE')
+                    end_time = time.time()
+                    
+                    # Memory after
+                    mem_after = process.memory_info().rss
+                    
+                    times.append(end_time - start_time)
+                    memory_usage.append(mem_after - mem_before)
+                    
+                    # Save sample
+                    if i < 5:
+                        image.save(f"{self.output_dir}/samples/wheezy_sample_{i}_ABCDE.png")
+                except Exception as e:
+                    print(f"Wheezy error on iteration {i}: {e}")
+                    continue
+        except Exception as e:
+            print(f"Wheezy setup error: {e}")
+            return {
+                'generation_time': {'mean': 0, 'std': 0, 'min': 0, 'max': 0, 'raw_data': []},
+                'memory_usage': {'mean': 0, 'std': 0, 'raw_data': []},
+                'iterations': 0,
+                'error': f'Setup failed: {e}'
+            }
+        
+        if not times:  # If no successful iterations
+            return {
+                'generation_time': {'mean': 0, 'std': 0, 'min': 0, 'max': 0, 'raw_data': []},
+                'memory_usage': {'mean': 0, 'std': 0, 'raw_data': []},
+                'iterations': 0,
+                'error': 'No successful generations'
+            }
+        
+        return {
+            'generation_time': {
+                'mean': statistics.mean(times),
+                'std': statistics.stdev(times) if len(times) > 1 else 0,
+                'min': min(times),
+                'max': max(times),
+                'raw_data': times
+            },
+            'memory_usage': {
+                'mean': statistics.mean(memory_usage),
+                'std': statistics.stdev(memory_usage) if len(memory_usage) > 1 else 0,
+                'raw_data': memory_usage
+            },
+            'iterations': len(times)
+        }
+    
     def _print_performance_summary(self):
         """Print performance comparison summary."""
         print("\n📊 Performance Summary")
@@ -185,7 +336,9 @@ class CaptchaBenchmark:
                 'type_hints': True,
                 'documentation': True,
                 'customizable_dimensions': True,
-                'background_dots': True
+                'background_dots': True,
+                'ease_of_use': True,
+                'error_handling': True
             },
             'captcha_library': {
                 'color_modes': False,
@@ -197,7 +350,37 @@ class CaptchaBenchmark:
                 'type_hints': False,
                 'documentation': False,
                 'customizable_dimensions': True,
-                'background_dots': True
+                'background_dots': True,
+                'ease_of_use': True,
+                'error_handling': False
+            },
+            'claptcha': {
+                'color_modes': False,
+                'configurable_blur': False,
+                'strike_lines': False,
+                'noise_density_control': False,
+                'shear_distortion': False,
+                'professional_fonts': False,
+                'type_hints': False,
+                'documentation': False,
+                'customizable_dimensions': True,
+                'background_dots': False,
+                'ease_of_use': False,
+                'error_handling': False
+            },
+            'wheezy_captcha': {
+                'color_modes': False,
+                'configurable_blur': False,
+                'strike_lines': False,
+                'noise_density_control': True,
+                'shear_distortion': True,
+                'professional_fonts': False,
+                'type_hints': False,
+                'documentation': True,
+                'customizable_dimensions': True,
+                'background_dots': True,
+                'ease_of_use': False,
+                'error_handling': True
             }
         }
         
@@ -266,7 +449,11 @@ class CaptchaBenchmark:
             return
         
         # Performance comparison chart
+        num_libs = len(self.results['libraries'])
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+        
+        # Colors for different libraries
+        colors = ['#2E86AB', '#A23B72', '#F18F01', '#C73E1D', '#592E83'][:num_libs]
         
         # Generation time comparison
         lib_names = []
@@ -279,10 +466,11 @@ class CaptchaBenchmark:
             gen_stds.append(data['generation_time']['std'])
         
         bars1 = ax1.bar(lib_names, gen_times, yerr=gen_stds, capsize=5, 
-                       color=['#2E86AB', '#A23B72', '#F18F01'])
-        ax1.set_title('Generation Time Comparison')
+                       color=colors)
+        ax1.set_title('Generation Time Comparison (Lower is Better)')
         ax1.set_ylabel('Time (seconds)')
         ax1.set_xlabel('Library')
+        ax1.tick_params(axis='x', rotation=45)
         
         # Add value labels on bars
         for bar, time_val in zip(bars1, gen_times):
@@ -299,10 +487,11 @@ class CaptchaBenchmark:
             mem_stds.append(data['memory_usage']['std'] / 1024)
         
         bars2 = ax2.bar(lib_names, mem_usage, yerr=mem_stds, capsize=5,
-                       color=['#2E86AB', '#A23B72', '#F18F01'])
-        ax2.set_title('Memory Usage Comparison')
+                       color=colors)
+        ax2.set_title('Memory Usage Comparison (Lower is Better)')
         ax2.set_ylabel('Memory (KB)')
         ax2.set_xlabel('Library')
+        ax2.tick_params(axis='x', rotation=45)
         
         # Add value labels on bars
         for bar, mem_val in zip(bars2, mem_usage):
