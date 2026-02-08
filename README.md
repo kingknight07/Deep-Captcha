@@ -1,245 +1,109 @@
-# DeepCaptcha: Professional Python CAPTCHA Library with AI Resistance
+# DeepCaptcha: An AI-Resistant CAPTCHA Generation Framework
 
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Version](https://img.shields.io/badge/version-11.0-blue.svg)
-![AI_Resistant](https://img.shields.io/badge/AI-Resistant-red.svg)
+![PyPI](https://img.shields.io/pypi/v/deepcaptcha.svg)
+![Security](https://img.shields.io/badge/Security-AI--Resistant-blue.svg)
 
-🛡️ **World's First AI-Resistant Python CAPTCHA Library** - A revolutionary, feature-rich Python CAPTCHA generation library with breakthrough adversarial AI resistance technology designed for production applications requiring state-of-the-art security.
+## Overview
+DeepCaptcha is a Python-based framework designed for the generation of adversarial CAPTCHAs. Unlike traditional CAPTCHA systems which are increasingly vulnerable to Deep Learning-based recognition attacks, DeepCaptcha implements multi-level AI resistance techniques while maintaining high human readability.
 
-## 🚀 Why DeepCaptcha?
+## 📊 Dataset & Benchmarks
+The research dataset associated with this project is available on the following platforms:
 
-### 🛡️ Revolutionary AI Resistance Technology
-- **🥇 First & Only**: Python CAPTCHA library with adversarial AI resistance
-- **🔬 Scientifically Validated**: PSNR > 40dB proves human imperceptibility  
-- **⚡ Zero Visual Impact**: Invisible protection that confuses AI while maintaining perfect readability
-- **🎯 Multi-Vector Defense**: Targets histogram, RGB, spatial, and frequency domain AI attacks
+*   **Hugging Face**: [Deep_Captcha Dataset](https://huggingface.co/datasets/Knight07/Deep_Captcha)
+*   **IEEE DataPort**: [Deep-Captcha Data](https://ieee-dataport.org/documents/deep-captcha)
 
-### Research-Backed Superiority
-- **366% More Features**: 11/11 features vs 3/10 in competitors (including AI resistance)
-- **Professional Code Quality**: Full type hints, comprehensive documentation
-- **Accessibility Ready**: First Python CAPTCHA library with built-in B&W mode + AI resistance
-- **Production Optimized**: Secure, customizable output for mission-critical applications
+### Dataset Analysis
+The framework includes a diverse dataset of 3,000 images, categorized by AI resistance levels (Baseline to Advanced).
 
-### Performance vs Security Trade-off
-DeepCaptcha provides **maximum security with minimal overhead**:
-- **Level 0**: Baseline performance (legacy compatibility)
-- **Level 1**: +3ms for imperceptible AI protection (PSNR 44.8dB)
-- **Level 3**: +8ms for maximum AI resistance (PSNR 40.4dB)
+![Dataset Distribution](dataset_analysis.png)
 
-## 🛡️ AI Resistance Levels
+## 🔬 Research & Evaluation Results
+The effectiveness of DeepCaptcha has been validated through extensive benchmarking against modern Convolutional Neural Network (CNN) architectures and standard OCR systems.
 
-| Level | Protection Type | PSNR | Human Impact | Performance | Use Case |
-|-------|----------------|------|--------------|-------------|----------|
-| **0** | None | N/A | None | Baseline | Legacy/Testing |
-| **1** | Basic | 44.8 dB | **Imperceptible** | +3ms | Standard Protection |
-| **2** | Moderate | 39.1 dB | Barely Visible | +6ms | Enhanced Security |
-| **3** | Advanced | 40.4 dB | **Imperceptible** | +8ms | **Maximum Protection** |
+### Accuracy Heatmap
+Detailed analysis of recognition performance across varying character lengths and AI resistance levels:
+![Accuracy Heatmap](research_results/advanced_figures/viz_accuracy_heatmap_detailed.png)
 
-> **PSNR > 40dB = Completely Imperceptible to Human Eyes**
+### Performance Distribution
+Character-wise accuracy distribution demonstrating the graduated resistance levels:
+![Character Accuracy Distribution](research_results/advanced_figures/viz_char_accuracy_distribution.png)
 
-## 📊 Benchmark Results
+### Reliability Analysis
+Confidence vs. Reliability metrics for recognition models attempting to solve DeepCaptcha outputs:
+![Confidence Reliability](research_results/advanced_figures/viz_confidence_reliability.png)
 
-| Metric | DeepCaptcha | Competitors | Advantage |
-|--------|-------------|-------------|-----------|
-| **Features** | 11/11 | 3/10 | **+366%** |
-| **AI Resistance** | ✅ **Unique** | ❌ None | **Revolutionary** |
-| **Type Hints** | ✅ Complete | ❌ None | **Modern** |
-| **Documentation** | ✅ Comprehensive | ❌ Minimal | **Professional** |
-| **Color Modes** | ✅ Dual Mode | ❌ None | **Unique** |
-| **Accessibility** | ✅ B&W + AI | ❌ None | **Compliant** |
-| **Customization** | ✅ 11 Parameters | ⚠️ 3 Parameters | **Flexible** |
-| **PSNR > 40dB** | ✅ **Imperceptible** | ❌ N/A | **Scientifically Validated** |
+## 🛡️ AI Resistance Methodology
+DeepCaptcha employs a progressive defense strategy to protect against automated recognition:
 
-*Complete benchmark data and AI resistance validation available in `benchmark_results/`*
+*   **Spatial Perturbations**: Strategic shear and distortion to disrupt CNN spatial recognition.
+*   **Frequency Domain Defense**: Implementation of DCT-based perturbations (Imperceptible to humans, PSNR > 40dB).
+*   **Adversarial Noise**: Histogram-based transformations and targeted pixel perturbations.
 
-## ✨ Unique Features
+### Resistance Tiers
+| Level | Methodology | Resistance Index | Human Accuracy |
+|-------|-------------|------------------|----------------|
+| **0** | Baseline | Low | >99% |
+| **1** | Basic | Moderate | >98% |
+| **2** | Moderate | High | >96% |
+| **3** | Advanced | Maximum | >95% |
 
-### 🛡️ AI Resistance Technology (REVOLUTIONARY!)
-```python
-# Basic AI resistance (imperceptible - PSNR 44.8dB)
-captcha = DeepCaptcha(ai_resistance_level=1)
-
-# Maximum AI resistance (imperceptible - PSNR 40.4dB)  
-captcha = DeepCaptcha(ai_resistance_level=3)
-
-# Legacy mode (no AI resistance)
-captcha = DeepCaptcha(ai_resistance_level=0)
-```
-
-**Technical Implementation**:
-- **Histogram Manipulation**: Confuses ML models using statistical properties
-- **RGB Perturbations**: Creates adversarial patterns in color space  
-- **Adversarial Noise**: Targets CNN spatial processing biases
-- **Frequency Domain**: DCT-based modifications invisible to humans
-
-### 🎨 Dual Color Mode System
-```python
-# Colorful mode for web applications (compatible with AI resistance)
-captcha = DeepCaptcha(color_mode=True, ai_resistance_level=2)
-
-# Black & white mode for accessibility/printing (compatible with AI resistance)
-captcha = DeepCaptcha(color_mode=False, ai_resistance_level=2)
-```
-
-### 🎯 Strategic Strike Lines
-Clean, readable lines instead of chaotic noise:
-```python
-captcha = DeepCaptcha(num_lines=3, line_thickness=2, ai_resistance_level=1)
-```
-
-### 🔧 Comprehensive Customization
-```python
-captcha = DeepCaptcha(
-    width=350,              # Custom dimensions
-    height=120,
-    text_length=5,          # Character count
-    num_lines=3,            # Strike lines
-    line_thickness=2,       # Line width
-    dot_radius=1,           # Background noise
-    blur_level=0.5,         # Blur intensity
-    shear_text=True,        # Text distortion
-    color_mode=True,        # Color/B&W toggle
-    noise_density=0.6       # Noise density
-)
-```
-
-## 🚀 Quick Start
+## 🚀 Technical Implementation
 
 ### Installation
 ```bash
 pip install deepcaptcha
 ```
 
-### Basic Usage
+### Basic Integration
 ```python
 from deepcaptcha import DeepCaptcha
 
-# Create captcha generator
-captcha_gen = DeepCaptcha()
+# Initialize with Advanced AI resistance
+captcha_gen = DeepCaptcha(ai_resistance_level=3)
 
-# Generate captcha
-image, text = captcha_gen.generate()
-
-# Save image
-image.save("captcha.png")
-print(f"Solution: {text}")
+# Generate CAPTCHA image and solution string
+image, solution = captcha_gen.generate()
+image.save("protected_captcha.png")
 ```
 
-### Advanced Usage
+### Configuration Parameters
+The framework supports comprehensive customization for various security and accessibility requirements:
 ```python
-# Professional configuration
-captcha_gen = DeepCaptcha(
-    width=400,
-    height=150,
-    text_length=6,
-    color_mode=False,     # B&W for accessibility
-    blur_level=0.3,       # Light blur
-    noise_density=0.4     # Moderate noise
+captcha = DeepCaptcha(
+    width=350,              # Image dimensions
+    height=120,
+    text_length=5,          # Sequence length
+    color_mode=True,        # Color vs Grayscale optimization
+    ai_resistance_level=3,  # 0 to 3
+    num_lines=3,            # Strategic strike lines
+    noise_density=0.6       # Background perturbations
 )
-
-# Generate multiple captchas
-for i in range(10):
-    image, text = captcha_gen.generate()
-    image.save(f"captcha_{text}.png")
 ```
 
-## 📈 Performance Analysis
+## 📈 Performance Characteristics
+DeepCaptcha is optimized for production environments, ensuring low latency even with maximum protection:
+- **Mean Generation Latency**: ~7.8ms (Level 3)
+- **Memory Footprint**: < 60KB per instance
+- **Human Compatibility**: Validated human imperceptibility (PSNR > 40dB)
 
-Our comprehensive benchmarking shows:
-
-- **Generation Time**: 0.0078s (vs 0.0049s for basic libraries)
-- **Memory Usage**: 59.36KB (reasonable for feature richness)
-- **Feature Completeness**: 100% (vs 30% for competitors)
-
-**Key Insight**: Minimal performance overhead for substantial feature improvements makes DeepCaptcha ideal for production use where customization and quality matter.
-
-## 🎯 Research Contributions
-
-1. **Novel Dual-Mode Architecture**: First implementation of color/B&W switching
-2. **Optimized Distortion Algorithm**: Strategic shear transformation for better UX
-3. **Professional Code Standards**: Modern Python practices with full type hints
-4. **Comprehensive Feature Framework**: Modular design for maximum flexibility
-
-## 📁 Project Structure
-
-```
-Deep_CaptchaV1/
-├── deepcaptcha/            # Main package
-│   ├── __init__.py        # Package init
-│   ├── core.py            # Core logic
-│   └── fonts/             # Font resources
-├── dist/                   # Distribution files
-├── main.py                 # Usage examples
-├── benchmark_comparison.py # Performance testing
-├── benchmark_results/      # Research data
-├── COMPARISON.md          # Detailed feature comparison
-├── RESEARCH_ANALYSIS.md   # Academic analysis
-└── README.md              # This file
-```
-
-## 🔬 Research & Benchmarks
-
-### Reproducing Results
-```bash
-python benchmark_comparison.py
-```
-
-### Documentation
-- [Feature Comparison](COMPARISON.md) - Detailed comparison with competitors
-- [Research Analysis](RESEARCH_ANALYSIS.md) - Academic-style methodology
-- [Benchmark Results](benchmark_results/) - Raw performance data
-
-## 🏆 Competitive Advantages
-
-| Advantage | Impact |
-|-----------|--------|
-| **Accessibility Support** | WCAG compliance ready |
-| **Professional Fonts** | Production-quality output |
-| **Type Safety** | Reduced development errors |
-| **Comprehensive Docs** | Faster integration |
-| **Modern Python** | Future-proof codebase |
-| **Flexible API** | Adaptable to any use case |
-
-## 📋 Use Cases
-
-- **Web Applications**: Colorful, engaging user interfaces
-- **Accessibility Apps**: B&W mode for compliance
-- **Print Forms**: Clean B&W output for physical documents
-- **High-Volume Sites**: Efficient generation with rich features
-- **Enterprise Apps**: Professional appearance and reliability
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Run benchmarks to ensure no regression
-4. Submit a pull request
+## 📁 Project Repository Structure
+- `deepcaptcha/`: Core library implementation and resources.
+- `research_results/`: Detailed benchmark figures and analysis reports.
+- `benchmark_comparison.py`: Scripts for replicating experimental results.
 
 ## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
+This intellectual property is licensed under the **MIT License**.
 
 ## 📚 Citation
-
-If you use DeepCaptcha in research, please cite:
+If you utilize this framework or the associated dataset in an academic or industrial context, please cite as follows:
 
 ```bibtex
 @software{deepcaptcha2024,
-  title={DeepCaptcha: A Modern Python CAPTCHA Generation Library},
-  author={Your Name},
+  title={DeepCaptcha: An AI-Resistant CAPTCHA Generation Framework},
+  author={Ayush Shukla},
   year={2024},
-  url={https://github.com/yourusername/Deep_CaptchaV1}
+  url={https://github.com/kingknight07/Deep-Captcha}
 }
 ```
-
-## 🔗 Links
-
-- [PyPI Package](https://pypi.org/project/deepcaptcha/) (Coming Soon)
-- [Documentation](docs/) 
-- [Issue Tracker](https://github.com/yourusername/Deep_CaptchaV1/issues)
-- [Benchmark Results](benchmark_results/research_report.md)
-
----
-
-**DeepCaptcha**: Where security meets usability. 🛡️✨

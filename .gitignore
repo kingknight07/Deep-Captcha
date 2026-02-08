@@ -12,6 +12,8 @@
 !LICENSE
 !README.md
 !.gitignore
+!dataset_analysis.png
+!research_results/
 
 # Re-ignore specific patterns that might be matched by the directory inclusions above
 __pycache__/
