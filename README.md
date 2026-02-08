@@ -53,10 +53,36 @@ captcha = DeepCaptcha(
 
 ## Dataset & Research
 
-For those interested in the underlying research and datasets used to test this library:
+This library is supported by extensive research and a large-scale dataset of CAPTCHA images designed to train and test OCR models and other CAPTCHA-breaking algorithms.
+
+### Available Datasets
+
+The **Deep-Captcha** dataset is available on the following platforms:
 
 *   **Hugging Face**: [Deep_Captcha Dataset](https://huggingface.co/datasets/Knight07/Deep_Captcha)
+    *   *Description*: A comprehensive collection of generated CAPTCHAs with varying levels of difficulty and noise. Ideal for training robust OCR models.
 *   **IEEE DataPort**: [Deep-Captcha Data](https://ieee-dataport.org/documents/deep-captcha)
+    *   *Description*: The official dataset release accompanying the research paper. Contains labeled images categorized by complexity.
+
+### Research Visualizations
+
+Our research analyzes the effectiveness of DeepCaptcha against modern recognition systems. Below are key visualizations from our study:
+
+#### Dataset Analysis
+Analysis of the dataset distribution and characteristics.
+![Dataset Analysis](dataset_analysis.png)
+
+#### Model Performance
+Heatmap showing the accuracy of recognition models across different CAPTCHA types and difficulty levels.
+![Accuracy Heatmap](research_results/advanced_figures/viz_accuracy_heatmap_detailed.png)
+
+#### Character Accuracy
+Distribution of recognition accuracy for individual characters, highlighting common confusion pairs.
+![Char Accuracy Distribution](research_results/advanced_figures/viz_char_accuracy_distribution.png)
+
+#### Confidence Reliability
+Reliability diagram showing the relationship between model confidence and actual accuracy.
+![Confidence Reliability](research_results/advanced_figures/viz_confidence_reliability.png)
 
 ## License
 
