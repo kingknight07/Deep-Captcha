@@ -108,12 +108,12 @@ captcha = DeepCaptcha(
 
 ### Installation
 ```bash
-pip install deepcaptcha  # Coming soon to PyPI
+pip install deepcaptcha
 ```
 
 ### Basic Usage
 ```python
-from DeepCaptcha import DeepCaptcha
+from deepcaptcha import DeepCaptcha
 
 # Create captcha generator
 captcha_gen = DeepCaptcha()
@@ -165,11 +165,14 @@ Our comprehensive benchmarking shows:
 
 ```
 Deep_CaptchaV1/
-├── DeepCaptcha.py          # Main library
+├── deepcaptcha/            # Main package
+│   ├── __init__.py        # Package init
+│   ├── core.py            # Core logic
+│   └── fonts/             # Font resources
+├── dist/                   # Distribution files
 ├── main.py                 # Usage examples
 ├── benchmark_comparison.py # Performance testing
 ├── benchmark_results/      # Research data
-├── static/                 # Professional fonts
 ├── COMPARISON.md          # Detailed feature comparison
 ├── RESEARCH_ANALYSIS.md   # Academic analysis
 └── README.md              # This file
