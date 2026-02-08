@@ -68,7 +68,7 @@ This project is licensed under the MIT License.
 @software{deepcaptcha2024,
   title={DeepCaptcha: A Python CAPTCHA Library with AI Resistance},
   author={Ayush Shukla},
-  year={2024},
+  year={2026},
   url={https://github.com/kingknight07/Deep-Captcha}
 }
 ```
