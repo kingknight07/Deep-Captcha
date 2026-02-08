@@ -52,10 +52,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/shuklaayush0704/Deep-Captcha"
-Documentation = "https://github.com/shuklaayush0704/Deep-Captcha#readme"
-Repository = "https://github.com/shuklaayush0704/Deep-Captcha"
-Issues = "https://github.com/shuklaayush0704/Deep-Captcha/issues"
+Homepage = "https://github.com/kingknight07/Deep-Captcha"
+Documentation = "https://github.com/kingknight07/Deep-Captcha#readme"
+Repository = "https://github.com/kingknight07/Deep-Captcha"
+Issues = "https://github.com/kingknight07/Deep-Captcha/issues"
 
 [tool.setuptools]
 packages = ["deepcaptcha"]
