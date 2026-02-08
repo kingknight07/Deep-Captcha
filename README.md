@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Version](https://img.shields.io/badge/version-1.0.3-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.4-blue.svg)
 
 DeepCaptcha is a Python library for generating CAPTCHA images. It includes features to add noise and distortions that provide resistance against automated recognition (OCR and machine learning models) while remaining readable by humans.
 
@@ -91,7 +91,7 @@ This project is licensed under the MIT License.
 ## Citation
 
 ```bibtex
-@software{deepcaptcha2024,
+@software{deepcaptcha2026,
   title={DeepCaptcha: A Python CAPTCHA Library with AI Resistance},
   author={Ayush Shukla},
   year={2026},
