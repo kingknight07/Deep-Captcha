@@ -74,15 +74,15 @@ Analysis of the dataset distribution and characteristics.
 
 #### Model Performance
 Heatmap showing the accuracy of recognition models across different CAPTCHA types and difficulty levels.
-![Accuracy Heatmap](research_results/advanced_figures/viz_accuracy_heatmap_detailed.png)
+![Accuracy Heatmap](viz_accuracy_heatmap_detailed.png)
 
 #### Character Accuracy
 Distribution of recognition accuracy for individual characters, highlighting common confusion pairs.
-![Char Accuracy Distribution](research_results/advanced_figures/viz_char_accuracy_distribution.png)
+![Char Accuracy Distribution](viz_char_accuracy_distribution.png)
 
 #### Confidence Reliability
 Reliability diagram showing the relationship between model confidence and actual accuracy.
-![Confidence Reliability](research_results/advanced_figures/viz_confidence_reliability.png)
+![Confidence Reliability](viz_confidence_reliability.png)
 
 ## License
 
